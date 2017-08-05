@@ -5,22 +5,20 @@
  */
 'use strict';
 
-var assign = require('object.assign');
-
-var expandLocales         = require('./lib/expand-locales');
-var extractPluralRules    = require('./lib/extract-plurals');
-var extractRelativeFields = require('./lib/extract-relative');
-var getAllLocales         = require('./lib/locales').getAllLocales;
+const expandLocales = require('./lib/expand-locales');
+const extractPluralRules = require('./lib/extract-plurals');
+const getAllLocales = require('./lib/locales').getAllLocales;
+const extractRelativeFields = require('./lib/extract-relative');
 
 module.exports = function extractData(options) {
-    options = assign({
+    options = Object.assign({
         locales       : null,
         pluralRules   : false,
         relativeFields: false,
     }, options);
 
     // Default to all CLDR locales if none have been provided.
-    var locales = options.locales || getAllLocales();
+    let locales = options.locales || getAllLocales();
 
     // Each type of data has the structure: `{"<locale>": {"<key>": <value>}}`,
     // which is well suited for merging into a single object per locale. This
@@ -33,10 +31,11 @@ module.exports = function extractData(options) {
 };
 
 function mergeData(/*...sources*/) {
-    var sources = [].slice.call(arguments);
+    let sources = [].slice.call(arguments);
+
     return sources.reduce(function (data, source) {
         Object.keys(source || {}).forEach(function (locale) {
-            data[locale] = assign(data[locale] || {}, source[locale]);
+            data[locale] = Object.assign(data[locale] || {}, source[locale]);
         });
 
         return data;
