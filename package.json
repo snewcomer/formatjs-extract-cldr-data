@@ -1,5 +1,5 @@
 {
-  "name": "formatjs-extract-cldr-data",
+  "name": "@ember-intl/formatjs-extract-cldr-data",
   "version": "3.0.0",
   "description": "Utility library that extracts the CLDR data that's needed by the FormatJS libraries.",
   "main": "index.js",
@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yahoo/formatjs-extract-cldr-data.git"
+    "url": "https://github.com/ember-intl/formatjs-extract-cldr-data.git"
   },
   "keywords": [
     "i18n",
@@ -32,7 +32,7 @@
     "formatjs"
   ],
   "bugs": {
-    "url": "https://github.com/yahoo/formatjs-extract-cldr-data/issues"
+    "url": "https://github.com/ember-intl/formatjs-extract-cldr-data/issues"
   },
-  "homepage": "https://github.com/yahoo/formatjs-extract-cldr-data"
+  "homepage": "https://github.com/ember-intl/formatjs-extract-cldr-data"
 }
