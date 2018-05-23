@@ -5,15 +5,25 @@
  */
 'use strict';
 
-var assign = require('object.assign');
+const expandLocales         = require('./lib/expand-locales');
+const extractPluralRules    = require('./lib/extract-plurals');
+const extractRelativeFields = require('./lib/extract-relative');
+const getAllLocales         = require('./lib/locales').getAllLocales;
 
-var expandLocales         = require('./lib/expand-locales');
-var extractPluralRules    = require('./lib/extract-plurals');
-var extractRelativeFields = require('./lib/extract-relative');
-var getAllLocales         = require('./lib/locales').getAllLocales;
+function mergeData(/*...sources*/) {
+    let sources = [].slice.call(arguments);
 
-module.exports = function extractData(options) {
-    options = assign({
+    return sources.reduce(function (data, source) {
+        Object.keys(source || {}).forEach(function (locale) {
+            data[locale] = Object.assign(data[locale] || {}, source[locale]);
+        });
+
+        return data;
+    }, {});
+}
+
+function extractData(options) {
+    options = Object.assign({
         locales       : null,
         pluralRules   : false,
         relativeFields: false,
@@ -25,20 +35,13 @@ module.exports = function extractData(options) {
     // Each type of data has the structure: `{"<locale>": {"<key>": <value>}}`,
     // which is well suited for merging into a single object per locale. This
     // performs that deep merge and returns the aggregated result.
-    return mergeData(
+    const output = mergeData(
         expandLocales(locales),
         options.pluralRules && extractPluralRules(locales),
         options.relativeFields && extractRelativeFields(locales)
     );
-};
 
-function mergeData(/*...sources*/) {
-    var sources = [].slice.call(arguments);
-    return sources.reduce(function (data, source) {
-        Object.keys(source || {}).forEach(function (locale) {
-            data[locale] = assign(data[locale] || {}, source[locale]);
-        });
-
-        return data;
-    }, {});
+    return output;
 }
+
+module.exports = extractData;
