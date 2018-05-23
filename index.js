@@ -10,7 +10,19 @@ const extractPluralRules = require('./lib/extract-plurals');
 const getAllLocales = require('./lib/locales').getAllLocales;
 const extractRelativeFields = require('./lib/extract-relative');
 
-module.exports = function extractData(options) {
+function mergeData(/*...sources*/) {
+    let sources = [].slice.call(arguments);
+
+    return sources.reduce(function (data, source) {
+        Object.keys(source || {}).forEach(function (locale) {
+            data[locale] = Object.assign(data[locale] || {}, source[locale]);
+        });
+
+        return data;
+    }, {});
+}
+
+function extractData(options) {
     options = Object.assign({
         locales       : null,
         pluralRules   : false,
@@ -23,21 +35,13 @@ module.exports = function extractData(options) {
     // Each type of data has the structure: `{"<locale>": {"<key>": <value>}}`,
     // which is well suited for merging into a single object per locale. This
     // performs that deep merge and returns the aggregated result.
-    return mergeData(
+    const output = mergeData(
         expandLocales(locales),
         options.pluralRules && extractPluralRules(locales),
         options.relativeFields && extractRelativeFields(locales)
     );
-};
 
-function mergeData(/*...sources*/) {
-    let sources = [].slice.call(arguments);
-
-    return sources.reduce(function (data, source) {
-        Object.keys(source || {}).forEach(function (locale) {
-            data[locale] = Object.assign(data[locale] || {}, source[locale]);
-        });
-
-        return data;
-    }, {});
+    return output;
 }
+
+module.exports = extractData;
