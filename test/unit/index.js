@@ -212,6 +212,18 @@ describe('extractData()', function () {
                 expect(data.en.fields).to.be.an('object');
             });
         });
+
+        describe('relativeNumbers', function () {
+            it('should contribute a `numbers` object property', function () {
+                var data = extractData({
+                    locales       : ['en'],
+                    relativeNumbers: true,
+                });
+
+                expect(data.en).to.have.key('numbers');
+                expect(data.en.numbers).to.be.an('object');
+            });
+        });
     });
 
     describe('Locale hierarchy', function () {
