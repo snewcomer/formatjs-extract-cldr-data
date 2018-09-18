@@ -222,6 +222,8 @@ describe('extractData()', function () {
 
                 expect(data.en).to.have.key('numbers');
                 expect(data.en.numbers).to.be.an('object');
+                expect(data.en.numbers).to.have.key('decimalFormats-numberSystem-latn');
+                expect(data.en.numbers).to.have.key('currencyFormats-numberSystem-latn');
             });
         });
     });
@@ -257,6 +259,7 @@ describe('extractData()', function () {
                 locales       : locales,
                 pluralRules   : true,
                 relativeFields: true,
+                numberFields: true,
             });
 
             expect(data['es-AR']).to.have.keys('parentLocale');
