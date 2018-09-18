@@ -28,7 +28,7 @@ function extractData(options) {
         locales       : null,
         pluralRules   : false,
         relativeFields: false,
-        relativeNumbers: false,
+        numberFields: false,
     }, options);
 
     // Default to all CLDR locales if none have been provided.
@@ -41,7 +41,7 @@ function extractData(options) {
         expandLocales(locales),
         options.pluralRules && extractPluralRules(locales),
         options.relativeFields && extractRelativeFields(locales),
-        options.relativeNumbers && extractRelativeNumbers(locales)
+        options.numberFields && extractRelativeNumbers(locales)
     );
 
     return output;
