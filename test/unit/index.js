@@ -213,11 +213,11 @@ describe('extractData()', function () {
             });
         });
 
-        describe('relativeNumbers', function () {
+        describe('numberFields', function () {
             it('should contribute a `numbers` object property', function () {
                 var data = extractData({
                     locales       : ['en'],
-                    relativeNumbers: true,
+                    numberFields: true,
                 });
 
                 expect(data.en).to.have.key('numbers');
