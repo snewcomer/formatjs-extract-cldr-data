@@ -221,9 +221,21 @@ describe('extractData()', function () {
                 });
 
                 expect(data.en).to.have.key('numbers');
-                expect(data.en.numbers).to.be.an('object');
-                expect(data.en.numbers).to.have.key('decimalFormats-numberSystem-latn');
-                expect(data.en.numbers).to.have.key('currencyFormats-numberSystem-latn');
+                var numbers = data.en.numbers;
+                expect(numbers).to.be.an('object');
+                expect(numbers).to.have.key('decimal');
+                // [
+                //   [1000, {one: ["0K", 1], other: ["0K", 1]}],
+                //   [10000, %{one: ["00K", 2], other: ["00K", 2]}]
+                // ]
+                expect(numbers.decimal).to.have.key('long');
+                expect(numbers.decimal).to.have.key('short');
+                expect(numbers.decimal.long.length).to.be.greaterThan(1);
+                expect(numbers.decimal.short.length).to.be.greaterThan(1);
+                expect(numbers.decimal.short[0].length).to.be.equal(2);
+                expect(numbers.decimal.short[0][0]).to.be.equal(1000);
+                expect(numbers.decimal.short[0][1]).to.have.key('one');
+                expect(numbers.decimal.short[0][1]).to.have.key('other');
             });
         });
     });
