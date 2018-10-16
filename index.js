@@ -9,7 +9,7 @@ const expandLocales = require('./lib/expand-locales');
 const extractPluralRules = require('./lib/extract-plurals');
 const getAllLocales = require('./lib/locales').getAllLocales;
 const extractRelativeFields = require('./lib/extract-relative');
-const extractRelativeNumbers = require('./lib/extract-numbers');
+const extractNumbers = require('./lib/extract-numbers');
 
 function mergeData(/*...sources*/) {
     let sources = [].slice.call(arguments);
@@ -41,7 +41,7 @@ function extractData(options) {
         expandLocales(locales),
         options.pluralRules && extractPluralRules(locales),
         options.relativeFields && extractRelativeFields(locales),
-        options.numberFields && extractRelativeNumbers(locales)
+        options.numberFields && extractNumbers(locales)
     );
 
     return output;
